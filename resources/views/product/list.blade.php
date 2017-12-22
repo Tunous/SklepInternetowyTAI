@@ -1,7 +1,10 @@
 @extends('layouts.app')
 
 @php
-    $products = ['Piernik', 'Szarlotka', 'Cytrynowiec'];
+    use App\Product;
+
+    $products = Product::all();
+
     $num_products = count($products);
     $num_columns = 3;
 @endphp
@@ -14,7 +17,7 @@
                 @if ($index % $num_columns == 0)
                     <div class="columns">
                         @endif
-                        @include('product.product', ['product_id' => $index, 'product' => $product])
+                        @include('product.product', ['product' => $product])
                         @if ($index % $num_columns == $num_columns - 1 || $index == $num_products - 1)
                     </div>
                 @endif

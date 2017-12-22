@@ -1,6 +1,7 @@
 <?php
 
 use \Illuminate\Http\Request;
+use App\Product;
 
 // Wyświetlenie strony głównej
 Route::view('/', 'home');
@@ -16,9 +17,10 @@ Route::view('/products', 'product.list');
 
 // Wyświetlenie informacji o produkcie
 Route::get('/product/{product_id}', function ($product_id) {
+    $product = Product::find($product_id);
+
     return view('product.details', [
-        'product_id' => $product_id,
-        'product' => 'Nazwa'
+        'product' => $product
     ]);
 })->where('product_id', '[0-9]+');
 
