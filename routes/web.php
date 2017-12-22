@@ -29,4 +29,4 @@ Route::get('/produkty', function () {
 
 Route::get('/produkt/{id}', function ($id) {
     return view('product.details', ['product_id' => $id, 'product' => 'Nazwa']);
-});
+})->where('id', '[0-9]+');
