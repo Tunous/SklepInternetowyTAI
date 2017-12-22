@@ -1,32 +1,29 @@
 <?php
 
-/*
-  |--------------------------------------------------------------------------
-  | Web Routes
-  |--------------------------------------------------------------------------
-  |
-  | Here is where you can register web routes for your application. These
-  | routes are loaded by the RouteServiceProvider within a group which
-  | contains the "web" middleware group. Now create something great!
-  |
- */
+use \Illuminate\Http\Request;
 
-Route::get('/', function () {
-    return view('home');
-});
+// Wyświetlenie strony głównej
+Route::view('/', 'home');
 
-Route::get('/login', function () {
-    return view('login');
-});
+// Wyświetlenie strony logowania
+Route::view('/login', 'login');
 
-Route::get('/register', function () {
-    return view('register');
-});
+// Wyświetlenie strony rejestracji
+Route::view('/register', 'register');
 
-Route::get('/produkty', function () {
-    return view('product.list');
-});
+// Wyświetlenie listy produktów
+Route::view('/products', 'product.list');
 
-Route::get('/produkt/{id}', function ($id) {
-    return view('product.details', ['product_id' => $id, 'product' => 'Nazwa']);
-})->where('id', '[0-9]+');
+// Wyświetlenie informacji o produkcie
+Route::get('/product/{product_id}', function ($product_id) {
+    return view('product.details', [
+        'product_id' => $product_id,
+        'product' => 'Nazwa'
+    ]);
+})->where('product_id', '[0-9]+');
+
+// Dodanie produktu do koszyka
+Route::post('/product/{product_id}/add-to-cart', function (Request $request, $product_id) {
+    $request->session()->push('cart', $product_id);
+    return redirect()->back();
+})->where('product_id', '[0-9]+');

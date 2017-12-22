@@ -9,8 +9,9 @@
             <p class="card-header-title">
                 {{ $product }}
             </p>
-            <form action="" class="card-header-icon" method="post">
-                <button class="button is-white" type="submit" name="do-koszyka" value="{{ $product_id }}">
+            <form action="/product/{{ $product_id }}/add-to-cart" class="card-header-icon" method="post">
+                {{ csrf_field() }}
+                <button class="button is-white" type="submit">
                     <span class="icon has-text-link"><i class="fa fa-cart-plus"></i></span>
                 </button>
             </form>
@@ -21,7 +22,7 @@
             </div>
         </div>
         <footer class="card-footer">
-            <a href="/produkt/{{ $product_id }}" class="card-footer-item">Więcej</a>
+            <a href="/product/{{ $product_id }}" class="card-footer-item">Więcej</a>
         </footer>
     </div>
 </div>
