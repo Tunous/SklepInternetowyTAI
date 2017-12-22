@@ -24,5 +24,9 @@ Route::get('/register', function () {
 });
 
 Route::get('/produkty', function () {
-    return view('products.products');
+    return view('product.list');
+});
+
+Route::get('/produkt/{id}', function ($id) {
+    return view('product.details', ['product_id' => $id, 'product' => 'Nazwa']);
 });

@@ -14,7 +14,7 @@
                 @if ($index % $num_columns == 0)
                     <div class="columns">
                         @endif
-                        @include('products.product', ['product_id' => $index, 'product' => $product])
+                        @include('product.product', ['product_id' => $index, 'product' => $product])
                         @if ($index % $num_columns == $num_columns - 1 || $index == $num_products - 1)
                     </div>
                 @endif
