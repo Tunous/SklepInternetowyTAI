@@ -14,7 +14,13 @@
 @section('content')
     <section class="section">
         <div class="container">
-            Witam na Stronie Głównej!
+            @guest
+                Witaj na Stronie Głównej!
+            @else
+                Witaj <strong>{{ Auth::user()->name }}</strong> na Stronie Głównej! <br>
+                <br>
+                Jesteś zalogowany.
+            @endguest
         </div>
     </section>
 @endsection

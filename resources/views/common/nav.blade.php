@@ -17,7 +17,7 @@
         </div>
         <div id="nav-menu" class="navbar-menu">
             <div class="navbar-start">
-                <a href="/" class="navbar-item is-active">Strona Główna</a>
+                <a href="{{ url('/') }}" class="navbar-item is-active">Strona Główna</a>
                 <a href="/produkty" class="navbar-item">Produkty</a>
             </div>
             <div class="navbar-end">
@@ -41,10 +41,22 @@
                     </div>
                 @endif
 
-                <a href="/login" class="navbar-item">Logowanie</a>
-                <div class="navbar-item">
-                    <a href="/rejestracja" class="button is-primary">Rejestracja</a>
-                </div>
+                @guest
+                    <a href="{{ route('login') }}" class="navbar-item">Logowanie</a>
+                    <div class="navbar-item">
+                        <a href="{{ route('register') }}" class="button is-primary">Rejestracja</a>
+                    </div>
+                @else
+                    <div class="navbar-item">
+                        <form action="{{ route('logout') }}" method="POST">
+                            {{ csrf_field() }}
+
+                            <button type="submit" class="button is-primary">
+                                Wyloguj
+                            </button>
+                        </form>
+                    </div>
+                @endguest
             </div>
         </div>
     </div>
