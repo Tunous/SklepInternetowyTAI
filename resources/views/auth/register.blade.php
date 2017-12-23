@@ -7,21 +7,21 @@
                 <div class="columns">
                     <div class="column is-one-third is-offset-one-third">
                         <h1 class="title">Rejestracja</h1>
-                        <form action="/register" method="POST">
+                        <form action="{{ route('register') }}" method="POST">
                             {{ csrf_field() }}
 
                             <div class="field">
                                 <label class="label">Dane logowania</label>
                                 <div class="field">
                                     <div class="control has-icons-left">
-                                        <input id="login" type="text" name="login"
-                                               class="input{{ $errors->has('login') ? ' is-danger' : '' }}"
-                                               placeholder="Login" value="{{ old('login') }}" required autofocus>
+                                        <input id="username" type="text" name="username"
+                                               class="input{{ $errors->has('username') ? ' is-danger' : '' }}"
+                                               placeholder="Login" value="{{ old('username') }}" required autofocus>
                                         <span class="icon is-small is-left"><i class="fa fa-user"></i></span>
                                     </div>
-                                    @if ($errors->has('login'))
+                                    @if ($errors->has('username'))
                                         <p class="help is-danger">
-                                            {{ $errors->first('login') }}
+                                            {{ $errors->first('username') }}
                                         </p>
                                     @endif
                                 </div>
@@ -113,9 +113,6 @@
                             <div class="field is-grouped is-grouped-centered">
                                 <div class="control is-expanded">
                                     <input type="submit" class="button is-fullwidth is-success" value="Zarejestruj">
-                                </div>
-                                <div class="control">
-                                    <input type="reset" class="button" value="Wyczyść">
                                 </div>
                             </div>
 

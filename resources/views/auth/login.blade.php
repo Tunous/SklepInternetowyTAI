@@ -12,14 +12,14 @@
 
                             <div class="field">
                                 <div class="control has-icons-left">
-                                    <input id="name" type="text" name="name"
-                                           class="input{{ $errors->has('name') ? ' is-danger' : '' }}"
-                                           placeholder="Login" value="{{ old('name') }}" required autofocus>
+                                    <input id="username" type="text" name="username"
+                                           class="input{{ $errors->has('username') ? ' is-danger' : '' }}"
+                                           placeholder="Login" value="{{ old('username') }}" required autofocus>
                                     <span class="icon is-small is-left"><i class="fa fa-user"></i></span>
                                 </div>
-                                @if ($errors->has('name'))
+                                @if ($errors->has('username'))
                                     <p class="help is-danger">
-                                        {{ $errors->first('name') }}
+                                        {{ $errors->first('username') }}
                                     </p>
                                 @endif
                             </div>
@@ -38,6 +38,16 @@
                                 @endif
                             </div>
 
+                            <div class="field">
+                                <div class="control">
+                                    <label class="checkbox">
+                                        <input id="remember" type="checkbox" name="remember"
+                                                {{ old('remember') ? 'checked' : '' }}>
+                                        Zapamiętaj mnie
+                                    </label>
+                                </div>
+                            </div>
+
                             <div class="field is-grouped is-grouped-centered">
                                 <div class="control">
                                     <input type="submit" class="button is-success" value="Zaloguj">
@@ -50,29 +60,6 @@
                                     <a href="{{ route('register') }}">Zarejestruj się</a>
                                 </p>
                             </div>
-
-                            {{--<div class="form-group">--}}
-                                {{--<div class="col-md-6 col-md-offset-4">--}}
-                                    {{--<div class="checkbox">--}}
-                                        {{--<label>--}}
-                                            {{--<input type="checkbox"--}}
-                                                   {{--name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me--}}
-                                        {{--</label>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
-
-                            {{--<div class="form-group">--}}
-                                {{--<div class="col-md-8 col-md-offset-4">--}}
-                                    {{--<button type="submit" class="btn btn-primary">--}}
-                                        {{--Login--}}
-                                    {{--</button>--}}
-
-                                    {{--<a class="btn btn-link" href="{{ route('password.request') }}">--}}
-                                        {{--Forgot Your Password?--}}
-                                    {{--</a>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
                         </form>
                     </div>
                 </div>
@@ -80,3 +67,4 @@
         </div>
     </section>
 @endsection
+
