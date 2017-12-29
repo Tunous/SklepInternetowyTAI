@@ -12,7 +12,7 @@
                         {{ $exception->getMessage() }}
                     @endif
                 </h2>
-                <a href="/" class="button is-danger">Powrót na stronę główną</a>
+                <a href="{{ route('home') }}" class="button is-danger">Powrót na stronę główną</a>
             </div>
         </div>
     </section>

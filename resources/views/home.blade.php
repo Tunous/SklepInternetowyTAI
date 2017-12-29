@@ -4,7 +4,7 @@
     <section class="hero is-primary">
         <div class="hero-body">
             <div class="container">
-                <p class="title">Sklep z ciastami</p>
+                <p class="title">Sklep internetowy</p>
                 <p class="subtitle">Projekt zaliczeniowy z Tworzenia Aplikacji Internetowych</p>
             </div>
         </div>
