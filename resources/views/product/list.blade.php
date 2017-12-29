@@ -4,14 +4,12 @@
     <section class="section">
         <div class="container">
             <h1 class="title">Lista produktów</h1>
-            @foreach ($products as $product)
-                @if ($loop->index % $num_columns == 0)
-                    <div class="columns">
-                        @endif
+            @foreach ($products->chunk(3) as $chunk)
+                <div class="columns">
+                    @foreach ($chunk as $product)
                         @include('product.product', ['product' => $product])
-                        @if ($loop->index % $num_columns == $num_columns - 1 || $loop->last)
-                    </div>
-                @endif
+                    @endforeach
+                </div>
             @endforeach
         </div>
     </section>

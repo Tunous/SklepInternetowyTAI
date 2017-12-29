@@ -21,9 +21,9 @@ class CreateProductsTable extends Migration
             $table->timestamps();
         });
 
-        $this->addProduct('Szarlotka', 'Ciasto z jabłkami');
-        $this->addProduct('Makowiec', 'Ciasto z makiem');
-        $this->addProduct('Sernik', 'Ciasto z serem');
+        $this->addProduct('Produkt 1', 'Produkt z numerem 1');
+        $this->addProduct('Produkt 2', 'Produkt z numerem 2');
+        $this->addProduct('Produkt 3', 'Produkt z numerem 3');
     }
 
     /**
