@@ -1,7 +1,5 @@
 @php
     $cart = session('cart', []);
-    $bucket_items = array_count_values($cart);
-    $num_bucket_items = count($bucket_items);
 @endphp
 <nav class="navbar has-shadow" role="navigation" aria-label="main navigation">
     <div class="container">
@@ -21,7 +19,7 @@
                 <a href="{{ route('products') }}" class="navbar-item">Produkty</a>
             </div>
             <div class="navbar-end">
-                @if ($num_bucket_items == 0)
+                @if (count($cart) == 0)
                     <a href="{{ route('cart') }}" class="navbar-item">
                         <span class="icon"><i class="fa fa-shopping-cart"></i></span>
                     </a>
@@ -32,8 +30,8 @@
                         </a>
 
                         <div class="navbar-dropdown">
-                            @foreach ($bucket_items as $name => $count)
-                                <div class="navbar-item">{{ $name }} x{{ $count }}</div>
+                            @foreach ($cart as $id => $count)
+                                <div class="navbar-item">{{ $id }} x{{ $count }}</div>
                             @endforeach
                             <hr class="navbar-divider">
                             <a href="{{ route('cart') }}" class="navbar-item">Koszyk</a>

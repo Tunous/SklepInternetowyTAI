@@ -18,12 +18,13 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('description');
+            $table->integer('cost');
             $table->timestamps();
         });
 
-        $this->addProduct('Produkt 1', 'Produkt z numerem 1');
-        $this->addProduct('Produkt 2', 'Produkt z numerem 2');
-        $this->addProduct('Produkt 3', 'Produkt z numerem 3');
+        $this->addProduct('Produkt 1', 'Produkt z numerem 1', 1000);
+        $this->addProduct('Produkt 2', 'Produkt z numerem 2', 2280);
+        $this->addProduct('Produkt 3', 'Produkt z numerem 3', 1250);
     }
 
     /**
@@ -36,11 +37,12 @@ class CreateProductsTable extends Migration
         Schema::dropIfExists('products');
     }
 
-    private function addProduct($name, $description)
+    private function addProduct($name, $description, $cost)
     {
         $product = new Product([
             'name' => $name,
-            'description' => $description
+            'description' => $description,
+            'cost' => $cost
         ]);
         $product->save();
     }
