@@ -24,7 +24,17 @@
                             <span id="total-cost">{{ number_format($total_cost / 100, 2, ',', ' ') }}</span>
                             zł brutto
                         </p>
-                        <button class="button is-success">Kupuję</button>
+
+                        <form action="{{ route('cart-login') }}" method="GET">
+                            <div class="field">
+                                <div class="control">
+                                    <button type="submit" class="button is-success">
+                                        Kupuję
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
                     </div>
                 </div>
             </div>

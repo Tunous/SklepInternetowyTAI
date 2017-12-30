@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -18,8 +19,8 @@ class CartController extends Controller
             return $value;
         });
 
-        $product_prices = collect($products)->map(function ($value) {
-            return $value->cost;
+        $product_prices = collect($products_with_quantity)->map(function ($value) {
+            return $value->cost * $value->quantity;
         });
         $total_cost = $product_prices->sum();
 
@@ -48,8 +49,25 @@ class CartController extends Controller
 
     public function setQuantity(Request $request, Product $product)
     {
+        $this->validate($request, [
+            'quantity' => 'required|integer|min:1|max:20'
+        ]);
+        $quantity = $request->quantity;
         $cart = $request->session()->get('cart', []);
-//        $cart[$product->id] = $request->
+        $cart[$product->id] = $quantity;
+        $request->session()->put('cart', $cart);
         return back();
+    }
+
+    public function showLoginForm()
+    {
+        return Auth::check()
+            ? $this->showBuyForm()
+            : view('cart.method');
+    }
+
+    public function showBuyForm()
+    {
+        return view('cart.form');
     }
 }
