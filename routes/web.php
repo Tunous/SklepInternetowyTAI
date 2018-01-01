@@ -7,8 +7,9 @@ Route::get('/produkty/{product}', 'ProductController@show')->name('product');
 
 Route::get('/koszyk', 'CartController@show')->name('cart');
 Route::post('/koszyk/dodaj/{product}', 'CartController@addToCart')->name('add-to-cart');
-Route::post('/koszyk/usun/{product}', 'CartController@removeFromCart')->name('remove-from-cart');
 Route::post('/koszyk/ustaw-ilosc/{product}', 'CartController@setQuantity')->name('set-cart-item-quantity');
+Route::post('/koszyk/oproznij', 'CartController@emptyCart')->name('empty-cart');
+
 Route::get('/platnosc/logowanie', 'CartController@showLoginForm')->name('cart-show-login-form');
 Route::get('/platnosc/dane', 'CartController@showContactForm')->name('cart-show-contact-form');
 Route::post('/platnosc/dane', 'CartController@updateContactDetails')->name('cart-update-contact-details');

@@ -1,38 +1,44 @@
-<div class="card">
+<div class="tile is-child card">
     <div class="card-content">
         <div class="content">
-            <h4><strong>{{ $product->name }}</strong></h4>
-            {{ number_format($product->cost / 100, 2, ',', ' ') }} zł/szt.
+            <div class="level is-mobile">
+                <div class="level-left">
+                    <div class="level-item">
+                        <strong>{{ $product->name }}</strong>
+                    </div>
+                </div>
+
+                <div class="level-right">
+                    <div class="level-item is-size-7">
+                        ({{ number_format($product->cost / 100, 2, ',', ' ') }} zł/szt.)
+                    </div>
+                    <div class="level-item is-size-5 has-text-danger has-text-weight-bold">
+                        {{ number_format(($product->cost * $product->quantity) / 100, 2, ',', ' ') }} zł
+                    </div>
+                </div>
+            </div>
 
             <form action="{{ route('set-cart-item-quantity', ['product' => $product]) }}" method="POST">
                 {{ csrf_field() }}
-
-                <div class="field has-addons">
-                    <div class="control">
+                <div class="control">
+                </div>
+                <div class="field has-addons is-expanded">
+                    <div class="control is-expanded">
                         <input name="quantity" type="number" class="input" placeholder="Ilość"
                                value="{{ $product->quantity }}" min="1" max="20">
                     </div>
                     <div class="control">
-                        <button type="submit" class="button is-success">
+                        <button id="submit" name="action" type="submit" class="button is-success" value="set">
                             <span class="icon"><i class="fa fa-check"></i></span>
                         </button>
                     </div>
-                </div>
-            </form>
-
-            <form action="{{ route('remove-from-cart', ['product' => $product]) }}" method="POST">
-                {{ csrf_field() }}
-
-                <div class="field">
                     <div class="control">
-                        <button type="submit" class="button is-danger">
+                        <button id="remove" name="action" type="submit" class="button is-danger" value="remove">
                             <span class="icon"><i class="fa fa-trash"></i></span>
-                            &nbsp;Usuń
                         </button>
                     </div>
                 </div>
             </form>
-
         </div>
     </div>
 </div>

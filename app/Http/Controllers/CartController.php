@@ -39,23 +39,31 @@ class CartController extends Controller
         return back();
     }
 
-    public function removeFromCart(Request $request, Product $product)
+    public function setQuantity(Request $request, Product $product)
     {
+        if ($request->input('action', 'set') == 'remove') {
+            $quantity = 0;
+        } else {
+            $this->validate($request, [
+                'quantity' => 'required|integer|min:1|max:20'
+            ]);
+            $quantity = $request->input('quantity');
+        }
+
         $cart = $request->session()->get('cart', []);
-        $new_cart = array_except($cart, $product->id);
-        $request->session()->put('cart', $new_cart);
+        if ($quantity == 0) {
+            $cart = array_except($cart, $product->id);
+        } else {
+            $cart[$product->id] = $quantity;
+        }
+        $request->session()->put('cart', $cart);
+
         return back();
     }
 
-    public function setQuantity(Request $request, Product $product)
+    public function emptyCart(Request $request)
     {
-        $this->validate($request, [
-            'quantity' => 'required|integer|min:1|max:20'
-        ]);
-        $quantity = $request->quantity;
-        $cart = $request->session()->get('cart', []);
-        $cart[$product->id] = $quantity;
-        $request->session()->put('cart', $cart);
+        $request->session()->remove('cart');
         return back();
     }
 
