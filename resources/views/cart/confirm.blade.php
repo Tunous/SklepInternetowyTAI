@@ -25,7 +25,17 @@
                 <div class="column">
                     <div class="title">Zawartość koszyka</div>
                     <div class="content">
-                        Koszyk jest pusty
+                        <ul>
+                            @foreach ($products as $product)
+                                <li>
+                                    {{ $product->name }} x{{ $product->quantity }} ({{ $product->cost }})
+                                </li>
+                            @endforeach
+                        </ul>
+
+                        <hr>
+
+                        @include('cart.cost-summary')
                     </div>
                 </div>
             </div>
@@ -55,4 +65,4 @@
             </div>
         </div>
     </section>
- @endsection
+@endsection

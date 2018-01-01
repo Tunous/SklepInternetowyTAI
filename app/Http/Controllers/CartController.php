@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
-    public function show(Request $request)
+    private function getCartData(Request $request)
     {
         $cart = $request->session()->get('cart', []);
         $product_ids = array_keys($cart);
@@ -24,10 +24,15 @@ class CartController extends Controller
         });
         $total_cost = $product_prices->sum();
 
-        return view('cart.cart', [
+        return [
             'products' => $products_with_quantity,
             'total_cost' => $total_cost
-        ]);
+        ];
+    }
+
+    public function show(Request $request)
+    {
+        return view('cart.cart', $this->getCartData($request));
     }
 
     public function addToCart(Request $request, Product $product)
@@ -79,9 +84,9 @@ class CartController extends Controller
         return view('cart.contact-form');
     }
 
-    public function showConfirmForm()
+    public function showConfirmForm(Request $request)
     {
-        return view('cart.confirm');
+        return view('cart.confirm', $this->getCartData($request));
     }
 
     public function updateContactDetails(Request $request)
@@ -107,7 +112,7 @@ class CartController extends Controller
             $user->save();
         }
 
-        return $this->showConfirmForm();
+        return $this->showConfirmForm($request);
     }
 
     public function performPayment()
