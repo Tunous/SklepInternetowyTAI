@@ -25,7 +25,7 @@
                             zł brutto
                         </p>
 
-                        <form action="{{ route('cart-login') }}" method="GET">
+                        <form action="{{ route('cart-show-login-form') }}" method="GET">
                             <div class="field">
                                 <div class="control">
                                     <button type="submit" class="button is-success">

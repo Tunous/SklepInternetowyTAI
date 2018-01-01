@@ -56,7 +56,7 @@
                         <div class="content">
                             Nie masz konta i nie chcesz go zakładać? Skorzystaj z opcji zakupów bez rejestracji.
                         </div>
-                        <a href="{{ route('cart-buy') }}" class="button is-info is-fullwidth">Kup bez rejestracji</a>
+                        <a href="{{ route('cart-show-contact-form') }}" class="button is-info is-fullwidth">Kup bez rejestracji</a>
                     </div>
                 </div>
             </div>

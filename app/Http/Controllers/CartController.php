@@ -62,12 +62,48 @@ class CartController extends Controller
     public function showLoginForm()
     {
         return Auth::check()
-            ? $this->showBuyForm()
-            : view('cart.method');
+            ? $this->showContactForm()
+            : view('cart.login');
     }
 
-    public function showBuyForm()
+    public function showContactForm()
     {
-        return view('cart.form');
+        return view('cart.contact-form');
+    }
+
+    public function showConfirmForm()
+    {
+        return view('cart.confirm');
+    }
+
+    public function updateContactDetails(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required|string|max:255',
+            'surname' => 'required|string|max:255',
+            'street' => 'required|string|max:255',
+            'postcode' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'phone' => 'required|digits:9',
+            'email' => 'string|email|max:255|unique:users'
+        ]);
+
+        if (Auth::check()) {
+            $user = Auth::user();
+            $user->name = $request->input('name');
+            $user->surname = $request->input('surname');
+            $user->street = $request->input('street');
+            $user->postcode = $request->input('postcode');
+            $user->city = $request->input('city');
+            $user->phone = $request->input('phone');
+            $user->save();
+        }
+
+        return $this->showConfirmForm();
+    }
+
+    public function performPayment()
+    {
+        return redirect(route('home'));
     }
 }
