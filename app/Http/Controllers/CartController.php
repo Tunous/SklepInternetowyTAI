@@ -89,9 +89,9 @@ class CartController extends Controller
                     'phone' => $user_details->phone,
                     'email' => $user->email
                 ]);
-                return $this->showConfirmForm($request);
+                return redirect(route('cart-show-confirm-form'));
             }
-            return $this->showContactForm($request);
+            return redirect(route('cart-show-contact-form'));
         }
 
         return view('cart.login');
@@ -163,21 +163,22 @@ class CartController extends Controller
 
         $request->session()->put('contact_details', $contact_details);
 
-        return $this->showConfirmForm($request);
+        return redirect(route('cart-show-confirm-form'));
     }
 
     public function performPayment(Request $request)
     {
         $contact_details = $request->session()->get('contact_details');
         $purchase = new Purchase($contact_details);
+        $cart = $this->getCartData($request);
 
+        $purchase->setAttribute('total_cost', $cart['total_cost']);
         if (Auth::check()) {
             Auth::user()->purchases()->save($purchase);
         } else {
             $purchase->save();
         }
 
-        $cart = $this->getCartData($request);
         foreach ($cart['products'] as $product) {
             $purchase->products()->attach($product->id, [
                 'quantity' => $product->quantity

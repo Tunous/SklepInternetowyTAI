@@ -1,5 +1,8 @@
 @php
+    use App\Product;
+
     $cart = session('cart', []);
+    $products = Product::find(array_keys($cart))
 @endphp
 <nav class="navbar has-shadow" role="navigation" aria-label="main navigation">
     <div class="container">
@@ -30,8 +33,13 @@
                         </a>
 
                         <div class="navbar-dropdown">
-                            @foreach ($cart as $id => $count)
-                                <div class="navbar-item">{{ $id }} x{{ $count }}</div>
+                            @foreach ($products as $product)
+                                <a href="{{ route('product', ['product' => $product]) }}" class="navbar-item">
+                                    <p>
+                                        <span>{{ $product->name }}</span>
+                                        <small>(x{{ $cart[$product->id] }})</small>
+                                    </p>
+                                </a>
                             @endforeach
                             <hr class="navbar-divider">
                             <a href="{{ route('cart') }}" class="navbar-item">Koszyk</a>
@@ -45,6 +53,7 @@
                         <a href="{{ route('register') }}" class="button is-primary">Rejestracja</a>
                     </div>
                 @else
+                        <a href="{{ route('payments') }}" class="navbar-item">Historia zamówień</a>
                     <div class="navbar-item">
                         <form action="{{ route('logout') }}" method="POST">
                             {{ csrf_field() }}

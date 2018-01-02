@@ -44,7 +44,12 @@
                     <div class="tile is-parent">
                         <div class="tile is-child card">
                             <div class="card-content">
-                                @include('cart.cost-summary')
+                                <div class="level is-mobile">
+                                    <div class="level-left">Razem do zapłaty</div>
+                                    <div class="level-right has-text-weight-bold">
+                                        {{ number_format($total_cost / 100, 2, ',', ' ') }} zł
+                                    </div>
+                                </div>
 
                                 <hr>
 

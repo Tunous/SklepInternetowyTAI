@@ -20,6 +20,8 @@ class CreatePurchasesTable extends Migration
             $table->foreign('user_id')
                 ->references('id')->on('users');
 
+            $table->integer('total_cost')->unsigned();
+
             $table->string('email');
             $table->string('name');
             $table->string('surname');

@@ -16,4 +16,6 @@ Route::post('/platnosc/dane', 'CartController@updateContactDetails')->name('cart
 Route::get('/platnosc', 'CartController@showConfirmForm')->name('cart-show-confirm-form');
 Route::post('/platnosc', 'CartController@performPayment')->name('cart-buy');
 
+Route::get('/platnosci', 'PaymentController@showPayments')->name('payments');
+
 Auth::routes();

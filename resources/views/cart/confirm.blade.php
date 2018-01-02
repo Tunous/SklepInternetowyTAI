@@ -19,19 +19,7 @@
 
                 <div class="column">
                     <div class="title">Zawartość koszyka</div>
-                    <div class="content">
-                        <ul>
-                            @foreach ($products as $product)
-                                <li>
-                                    {{ $product->name }} x{{ $product->quantity }} ({{ $product->cost }})
-                                </li>
-                            @endforeach
-                        </ul>
-
-                        <hr>
-
-                        @include('cart.cost-summary')
-                    </div>
+                    @include('cart.summary', ['products' => $products])
                 </div>
             </div>
 
@@ -42,9 +30,15 @@
 
                         <div class="field is-grouped is-grouped-centered">
                             <div class="control">
-                                <a href="{{ route('cart-show-contact-form') }}" class="button">
+                                <a href="{{ route('cart') }}" class="button is-danger">
                                     <span class="icon is-small"><i class="fa fa-arrow-left"></i></span>
-                                    <span>Popraw dane</span>
+                                    <span>Powrót do koszyka</span>
+                                </a>
+                            </div>
+
+                            <div class="control">
+                                <a href="{{ route('cart-show-contact-form') }}" class="button">
+                                    Popraw dane
                                 </a>
                             </div>
 
