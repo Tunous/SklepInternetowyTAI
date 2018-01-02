@@ -1,10 +1,5 @@
 @extends('layouts.app')
 
-@php
-    use Illuminate\Support\Facades\Auth;
-
-    $user = Auth::user();
-@endphp
 @section('content')
     <section class="section">
         <div class="container">
@@ -12,13 +7,13 @@
                 <div class="column">
                     <div class="title">Dane kontaktowe</div>
                     <div class="content">
-                        <strong>Imię</strong>: {{ $user->name }}<br>
-                        <strong>Nazwisko</strong>: {{ $user->surname }}<br>
-                        <strong>Ulica i numer</strong>: {{ $user->street }}<br>
-                        <strong>Kod pocztowy</strong>: {{ $user->postcode }}<br>
-                        <strong>Miasto</strong>: {{ $user->city }}<br>
-                        <strong>Telefon</strong>: {{ $user->phone }}<br>
-                        <strong>Email</strong>: {{ $user->email }}
+                        <strong>Imię</strong>: {{ $contact_details['name'] }}<br>
+                        <strong>Nazwisko</strong>: {{ $contact_details['surname'] }}<br>
+                        <strong>Ulica i numer</strong>: {{ $contact_details['street'] }}<br>
+                        <strong>Kod pocztowy</strong>: {{ $contact_details['postcode'] }}<br>
+                        <strong>Miasto</strong>: {{ $contact_details['city'] }}<br>
+                        <strong>Telefon</strong>: {{ $contact_details['phone'] }}<br>
+                        <strong>Email</strong>: {{ $contact_details['email'] }}
                     </div>
                 </div>
 

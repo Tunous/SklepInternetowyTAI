@@ -81,12 +81,28 @@ class CartController extends Controller
 
     public function showContactForm()
     {
-        return view('cart.contact-form');
+        $contact_details = session('contact_details');
+        if ($contact_details == null) {
+            $contact_details = [
+                'name' => '',
+                'surname' => '',
+                'street' => '',
+                'postcode' => '',
+                'city' => '',
+                'phone' => '',
+                'email' => ''
+            ];
+        }
+        return view('cart.contact-form', [
+            'contact_details' => $contact_details
+        ]);
     }
 
     public function showConfirmForm(Request $request)
     {
-        return view('cart.confirm', $this->getCartData($request));
+        $data = $this->getCartData($request);
+        $data['contact_details'] = $request->session()->get('contact_details');
+        return view('cart.confirm', $data);
     }
 
     public function updateContactDetails(Request $request)
@@ -101,16 +117,28 @@ class CartController extends Controller
             'email' => 'string|email|max:255|unique:users'
         ]);
 
+        $contact_details = [
+            'name' => $request->input('name'),
+            'surname' => $request->input('surname'),
+            'street' => $request->input('street'),
+            'postcode' => $request->input('postcode'),
+            'city' => $request->input('city'),
+            'phone' => $request->input('phone'),
+            'email' => $request->input('email')
+        ];
+
         if (Auth::check()) {
             $user = Auth::user();
-            $user->name = $request->input('name');
-            $user->surname = $request->input('surname');
-            $user->street = $request->input('street');
-            $user->postcode = $request->input('postcode');
-            $user->city = $request->input('city');
-            $user->phone = $request->input('phone');
+            $user->name = $contact_details['name'];
+            $user->surname = $contact_details['surname'];
+            $user->street = $contact_details['street'];
+            $user->postcode = $contact_details['postcode'];
+            $user->city = $contact_details['city'];
+            $user->phone = $contact_details['phone'];
             $user->save();
         }
+
+        $request->session()->put('contact_details', $contact_details);
 
         return $this->showConfirmForm($request);
     }

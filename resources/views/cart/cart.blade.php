@@ -33,7 +33,7 @@
                                         </button>
 
                                         <a href="{{ route('products') }}" class="button">
-                                            Powrót do listy produktów
+                                            Przejdź do listy produktów
                                         </a>
                                     </div>
                                 </form>

@@ -2,13 +2,14 @@
 
 @php
     use Illuminate\Support\Facades\Auth;
-    $name = old('name');
-    $surname = old('surname');
-    $street = old('street');
-    $postcode = old('postcode');
-    $city = old('city');
-    $phone = old('phone');
-    $email = old('email');
+
+    $name = old('name') ?: $contact_details['name'];
+    $surname = old('surname') ?: $contact_details['surname'];
+    $street = old('street') ?: $contact_details['street'];
+    $postcode = old('postcode') ?: $contact_details['postcode'];
+    $city = old('city') ?: $contact_details['city'];
+    $phone = old('phone') ?: $contact_details['phone'];
+    $email = old('email') ?: $contact_details['email'];
 
     if (Auth::check()) {
         $user = Auth::user();
