@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ContactDetails extends Model
 {
     protected $fillable = [
-        'email', 'name', 'surname', 'street', 'postcode', 'city', 'phone'
+        'name', 'surname', 'street', 'postcode', 'city', 'phone'
     ];
 
     public function user()
@@ -17,10 +17,5 @@ class ContactDetails extends Model
                 'email' => $this->email
             ]
         );
-    }
-
-    public function purchases()
-    {
-        return $this->hasMany('App\Purchase');
     }
 }

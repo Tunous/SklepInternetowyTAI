@@ -29,7 +29,7 @@ class User extends Authenticatable
 
     public function purchases()
     {
-        return $this->hasManyThrough('App\Purchase', 'App\ContactDetails');
+        return $this->hasMany('App\Purchase');
     }
 
     public function contactDetails()

@@ -24,6 +24,7 @@ class CreateProductPurchaseTable extends Migration
                 ->references('id')->on('purchases')
                 ->onDelete('cascade');
 
+            $table->integer('quantity')->unsigned();
             $table->timestamps();
         });
     }

@@ -16,11 +16,9 @@ class CreateContactDetailsTable extends Migration
         Schema::create('contact_details', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('user_id')->unsigned()->nullable();
+            $table->integer('user_id')->unsigned()->unique();
             $table->foreign('user_id')
                 ->references('id')->on('users');
-
-            $table->string('email')->unique();
 
             $table->string('name');
             $table->string('surname');

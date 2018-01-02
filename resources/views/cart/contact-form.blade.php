@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
 @php
-    use Illuminate\Support\Facades\Auth;
-
     $name = old('name') ?: $contact_details['name'];
     $surname = old('surname') ?: $contact_details['surname'];
     $street = old('street') ?: $contact_details['street'];
@@ -10,17 +8,6 @@
     $city = old('city') ?: $contact_details['city'];
     $phone = old('phone') ?: $contact_details['phone'];
     $email = old('email') ?: $contact_details['email'];
-
-    if (Auth::check()) {
-        $user = Auth::user();
-        $name = $user->name ?: $name;
-        $surname = $user->surname ?: $surname;
-        $street = $user->street ?: $street;
-        $postcode = $user->postcode ?: $postcode;
-        $city = $user->city ?: $city;
-        $phone = $user->phone ?: $phone;
-        $email = $user->email ?: $email;
-    }
 @endphp
 
 @section('content')

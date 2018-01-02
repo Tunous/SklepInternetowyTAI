@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\ContactDetails;
 use App\Product;
 use App\Purchase;
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -85,7 +83,19 @@ class CartController extends Controller
     public function showContactForm()
     {
         $contact_details = session('contact_details');
-        if ($contact_details == null) {
+        if (Auth::check()) {
+            $user = Auth::user();
+            $user_details = $user->contactDetails;
+            $contact_details = [
+                'name' => $user_details->name,
+                'surname' => $user_details->surname,
+                'street' => $user_details->street,
+                'postcode' => $user_details->postcode,
+                'city' => $user_details->city,
+                'phone' => $user_details->phone,
+                'email' => $user->email
+            ];
+        } else if ($contact_details == null) {
             $contact_details = [
                 'name' => '',
                 'surname' => '',
@@ -131,14 +141,16 @@ class CartController extends Controller
             'street' => $request->input('street'),
             'postcode' => $request->input('postcode'),
             'city' => $request->input('city'),
-            'phone' => $request->input('phone'),
-            'email' => $request->input('email')
+            'phone' => $request->input('phone')
         ];
 
         if (Auth::check()) {
             $user = Auth::user();
-            $contact_details['email'] = $user->email;
             $user->contactDetails()->updateOrCreate($contact_details);
+
+            $contact_details['email'] = $user->email;
+        } else {
+            $contact_details['email'] = $request->input('email');
         }
 
         $request->session()->put('contact_details', $contact_details);
@@ -148,19 +160,24 @@ class CartController extends Controller
 
     public function performPayment(Request $request)
     {
-        $purchase = new Purchase();
+        $contact_details = $request->session()->get('contact_details');
+        $purchase = new Purchase($contact_details);
 
         if (Auth::check()) {
-            $contact_details = Auth::user()->contactDetails();
+            Auth::user()->purchases()->save($purchase);
         } else {
-            $contact = $request->session()->get('contact_details');
-            $contact_details = new ContactDetails($contact);
-            $contact_details->save();
+            $purchase->save();
         }
 
-        $contact_details->purchases()->save($purchase);
+        $cart = $this->getCartData($request);
+        foreach ($cart['products'] as $product) {
+            $purchase->products()->attach($product->id, [
+                'quantity' => $product->quantity
+            ]);
+        }
 
-        $purchase->products()->attach(1);
+        $request->session()->remove('cart');
+        $request->session()->remove('contact_details');
 
         return redirect(route('home'));
     }
