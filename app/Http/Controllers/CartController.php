@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ContactDetails;
 use App\Product;
 use App\Purchase;
 use App\User;
@@ -115,9 +116,14 @@ class CartController extends Controller
             'street' => 'required|string|max:255',
             'postcode' => 'required|string|max:255',
             'city' => 'required|string|max:255',
-            'phone' => 'required|digits:9',
-            'email' => 'string|email|max:255|unique:users'
+            'phone' => 'required|digits:9'
         ]);
+
+        if (!Auth::check()) {
+            $this->validate($request, [
+                'email' => 'string|email|max:255|unique:users'
+            ]);
+        }
 
         $contact_details = [
             'name' => $request->input('name'),
@@ -131,13 +137,8 @@ class CartController extends Controller
 
         if (Auth::check()) {
             $user = Auth::user();
-            $user->name = $contact_details['name'];
-            $user->surname = $contact_details['surname'];
-            $user->street = $contact_details['street'];
-            $user->postcode = $contact_details['postcode'];
-            $user->city = $contact_details['city'];
-            $user->phone = $contact_details['phone'];
-            $user->save();
+            $contact_details['email'] = $user->email;
+            $user->contactDetails()->updateOrCreate($contact_details);
         }
 
         $request->session()->put('contact_details', $contact_details);
@@ -145,16 +146,19 @@ class CartController extends Controller
         return $this->showConfirmForm($request);
     }
 
-    public function performPayment()
+    public function performPayment(Request $request)
     {
         $purchase = new Purchase();
 
         if (Auth::check()) {
-            $user = Auth::user();
-            $user->purchases()->save($purchase);
+            $contact_details = Auth::user()->contactDetails();
         } else {
-            $purchase->save();
+            $contact = $request->session()->get('contact_details');
+            $contact_details = new ContactDetails($contact);
+            $contact_details->save();
         }
+
+        $contact_details->purchases()->save($purchase);
 
         $purchase->products()->attach(1);
 
