@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ContactDetails;
 use App\Product;
 use App\Purchase;
 use Illuminate\Http\Request;
@@ -73,30 +74,33 @@ class CartController extends Controller
         return back();
     }
 
-    public function showLoginForm()
+    public function showLoginForm(Request $request)
     {
-        return Auth::check()
-            ? $this->showContactForm()
-            : view('cart.login');
-    }
-
-    public function showContactForm()
-    {
-        $contact_details = session('contact_details');
         if (Auth::check()) {
             $user = Auth::user();
-            $user_details = $user->contactDetails;
-            $contact_details = [
-                'name' => $user_details->name,
-                'surname' => $user_details->surname,
-                'street' => $user_details->street,
-                'postcode' => $user_details->postcode,
-                'city' => $user_details->city,
-                'phone' => $user_details->phone,
-                'email' => $user->email
-            ];
-        } else if ($contact_details == null) {
-            $contact_details = [
+            if ($user->contactDetails != null) {
+                $user_details = $user->contactDetails;
+                $request->session()->put('contact_details', [
+                    'name' => $user_details->name,
+                    'surname' => $user_details->surname,
+                    'street' => $user_details->street,
+                    'postcode' => $user_details->postcode,
+                    'city' => $user_details->city,
+                    'phone' => $user_details->phone,
+                    'email' => $user->email
+                ]);
+                return $this->showConfirmForm($request);
+            }
+            return $this->showContactForm($request);
+        }
+
+        return view('cart.login');
+    }
+
+    public function showContactForm(Request $request)
+    {
+        return view('cart.contact-form', [
+            'contact_details' => $request->session()->get('contact_details', [
                 'name' => '',
                 'surname' => '',
                 'street' => '',
@@ -104,10 +108,7 @@ class CartController extends Controller
                 'city' => '',
                 'phone' => '',
                 'email' => ''
-            ];
-        }
-        return view('cart.contact-form', [
-            'contact_details' => $contact_details
+            ])
         ]);
     }
 
@@ -146,7 +147,14 @@ class CartController extends Controller
 
         if (Auth::check()) {
             $user = Auth::user();
-            $user->contactDetails()->updateOrCreate($contact_details);
+            $details = $user->contactDetails;
+            if (!count($details)) {
+                $details = new ContactDetails;
+                $details->user_id = $user->id;
+            }
+
+            $details->fill($contact_details);
+            $details->save();
 
             $contact_details['email'] = $user->email;
         } else {

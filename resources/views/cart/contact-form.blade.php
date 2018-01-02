@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
 @php
-    $name = old('name') ?: $contact_details['name'];
-    $surname = old('surname') ?: $contact_details['surname'];
-    $street = old('street') ?: $contact_details['street'];
-    $postcode = old('postcode') ?: $contact_details['postcode'];
-    $city = old('city') ?: $contact_details['city'];
-    $phone = old('phone') ?: $contact_details['phone'];
-    $email = old('email') ?: $contact_details['email'];
+    $name = old('name', $contact_details['name']);
+    $surname = old('surname', $contact_details['surname']);
+    $street = old('street', $contact_details['street']);
+    $postcode = old('postcode', $contact_details['postcode']);
+    $city = old('city', $contact_details['city']);
+    $phone = old('phone', $contact_details['phone']);
+    $email = old('email', $contact_details['email']);
 @endphp
 
 @section('content')

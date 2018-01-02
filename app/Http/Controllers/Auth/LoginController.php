@@ -46,7 +46,7 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         if ($request->input('cart-login', false)) {
-            return redirect()->intended(route('cart-show-contact-form'));
+            return redirect()->intended(route('cart-show-login-form'));
         }
         return redirect()->intended('/');
     }
