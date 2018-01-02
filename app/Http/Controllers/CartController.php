@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use App\Purchase;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -145,6 +147,17 @@ class CartController extends Controller
 
     public function performPayment()
     {
+        $purchase = new Purchase();
+
+        if (Auth::check()) {
+            $user = Auth::user();
+            $user->purchases()->save($purchase);
+        } else {
+            $purchase->save();
+        }
+
+        $purchase->products()->attach(1);
+
         return redirect(route('home'));
     }
 }
