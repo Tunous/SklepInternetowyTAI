@@ -21,6 +21,7 @@ class CreatePurchasesTable extends Migration
                 ->references('id')->on('users');
 
             $table->integer('total_cost')->unsigned();
+            $table->string('token');
 
             $table->string('email');
             $table->string('name');

@@ -15,7 +15,7 @@
         <div class="container">
             <div class="columns">
                 <div class="column">
-                    <form action="{{ route('cart-update-contact-details') }}" method="POST">
+                    <form action="{{ route('payment.contact.update') }}" method="POST">
                         {{ csrf_field() }}
 
                         <div class="field">

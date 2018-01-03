@@ -18,7 +18,7 @@
                 </div>
             </div>
 
-            <form action="{{ route('set-cart-item-quantity', ['product' => $product]) }}" method="POST">
+            <form action="{{ route('cart.setQuantity', ['product' => $product]) }}" method="POST">
                 {{ csrf_field() }}
                 <div class="control">
                 </div>

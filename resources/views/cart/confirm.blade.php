@@ -25,7 +25,7 @@
 
             <div class="columns">
                 <div class="column">
-                    <form action="{{ route('cart-buy') }}" method="POST">
+                    <form action="{{ route('payment') }}" method="POST">
                         {{ csrf_field() }}
 
                         <div class="field is-grouped is-grouped-centered">
@@ -37,7 +37,7 @@
                             </div>
 
                             <div class="control">
-                                <a href="{{ route('cart-show-contact-form') }}" class="button">
+                                <a href="{{ route('payment.contact') }}" class="button">
                                     Popraw dane
                                 </a>
                             </div>

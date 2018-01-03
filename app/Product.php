@@ -5,7 +5,11 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property int id
+ * @property mixed id
+ * @property string name
+ * @property string description
+ * @property int cost
+ * @property int quantity
  */
 class Product extends Model
 {

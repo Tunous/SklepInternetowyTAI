@@ -9,7 +9,7 @@
             <p class="card-header-title">
                 {{ $product->name }}
             </p>
-            <form action="{{ route('add-to-cart', ['product' => $product]) }}" class="card-header-icon" method="post">
+            <form action="{{ route('cart.add', ['product' => $product]) }}" class="card-header-icon" method="post">
                 {{ csrf_field() }}
                 <button class="button is-white" type="submit">
                     <span class="icon has-text-link"><i class="fa fa-cart-plus"></i></span>

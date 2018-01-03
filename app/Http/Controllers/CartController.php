@@ -2,39 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\ContactDetails;
 use App\Product;
-use App\Purchase;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
-    private function getCartData(Request $request)
-    {
-        $cart = $request->session()->get('cart', []);
-        $product_ids = array_keys($cart);
-        $products = Product::find($product_ids);
-
-        $products_with_quantity = collect($products)->map(function ($value) use ($cart) {
-            $value->quantity = $cart[$value->id];
-            return $value;
-        });
-
-        $product_prices = collect($products_with_quantity)->map(function ($value) {
-            return $value->cost * $value->quantity;
-        });
-        $total_cost = $product_prices->sum();
-
-        return [
-            'products' => $products_with_quantity,
-            'total_cost' => $total_cost
-        ];
-    }
-
     public function show(Request $request)
     {
-        return view('cart.cart', $this->getCartData($request));
+        return view('cart.cart', self::getCartData($request));
     }
 
     public function addToCart(Request $request, Product $product)
@@ -74,120 +49,26 @@ class CartController extends Controller
         return back();
     }
 
-    public function showLoginForm(Request $request)
+    public static function getCartData(Request $request)
     {
-        if (Auth::check()) {
-            $user = Auth::user();
-            if ($user->contactDetails != null) {
-                $user_details = $user->contactDetails;
-                $request->session()->put('contact_details', [
-                    'name' => $user_details->name,
-                    'surname' => $user_details->surname,
-                    'street' => $user_details->street,
-                    'postcode' => $user_details->postcode,
-                    'city' => $user_details->city,
-                    'phone' => $user_details->phone,
-                    'email' => $user->email
-                ]);
-                return redirect(route('cart-show-confirm-form'));
-            }
-            return redirect(route('cart-show-contact-form'));
-        }
+        $cart = $request->session()->get('cart', []);
+        $products = Product::find(array_keys($cart));
 
-        return view('cart.login');
-    }
+        $products_with_quantity = collect($products)
+            ->map(function (Product $product) use ($cart) {
+                $product->quantity = $cart[$product->id];
+                return $product;
+            });
 
-    public function showContactForm(Request $request)
-    {
-        return view('cart.contact-form', [
-            'contact_details' => $request->session()->get('contact_details', [
-                'name' => '',
-                'surname' => '',
-                'street' => '',
-                'postcode' => '',
-                'city' => '',
-                'phone' => '',
-                'email' => ''
-            ])
-        ]);
-    }
+        $total_cost = collect($products_with_quantity)
+            ->map(function (Product $product) {
+                return $product->cost * $product->quantity;
+            })
+            ->sum();
 
-    public function showConfirmForm(Request $request)
-    {
-        $data = $this->getCartData($request);
-        $data['contact_details'] = $request->session()->get('contact_details');
-        return view('cart.confirm', $data);
-    }
-
-    public function updateContactDetails(Request $request)
-    {
-        $this->validate($request, [
-            'name' => 'required|string|max:255',
-            'surname' => 'required|string|max:255',
-            'street' => 'required|string|max:255',
-            'postcode' => 'required|string|max:255',
-            'city' => 'required|string|max:255',
-            'phone' => 'required|digits:9'
-        ]);
-
-        if (!Auth::check()) {
-            $this->validate($request, [
-                'email' => 'string|email|max:255|unique:users'
-            ]);
-        }
-
-        $contact_details = [
-            'name' => $request->input('name'),
-            'surname' => $request->input('surname'),
-            'street' => $request->input('street'),
-            'postcode' => $request->input('postcode'),
-            'city' => $request->input('city'),
-            'phone' => $request->input('phone')
+        return [
+            'products' => $products_with_quantity,
+            'total_cost' => $total_cost
         ];
-
-        if (Auth::check()) {
-            $user = Auth::user();
-            $details = $user->contactDetails;
-            if (!count($details)) {
-                $details = new ContactDetails;
-                $details->user_id = $user->id;
-            }
-
-            $details->fill($contact_details);
-            $details->save();
-
-            $contact_details['email'] = $user->email;
-        } else {
-            $contact_details['email'] = $request->input('email');
-        }
-
-        $request->session()->put('contact_details', $contact_details);
-
-        return redirect(route('cart-show-confirm-form'));
-    }
-
-    public function performPayment(Request $request)
-    {
-        $contact_details = $request->session()->get('contact_details');
-        $purchase = new Purchase($contact_details);
-        $cart = $this->getCartData($request);
-
-        $purchase->setAttribute('total_cost', $cart['total_cost']);
-        if (Auth::check()) {
-            Auth::user()->purchases()->save($purchase);
-        } else {
-            $purchase->save();
-        }
-
-        foreach ($cart['products'] as $product) {
-            $purchase->products()->attach($product->id, [
-                'quantity' => $product->quantity
-            ]);
-        }
-
-        $request->session()->remove('cart');
-        $request->session()->remove('contact_details');
-
-        return redirect(route('home'));
     }
 }
