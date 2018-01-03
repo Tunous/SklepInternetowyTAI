@@ -4,11 +4,13 @@
     $cart = session('cart', []);
     $products = Product::find(array_keys($cart))
 @endphp
-<nav class="navbar has-shadow" role="navigation" aria-label="main navigation">
+<nav class="navbar has-shadow is-primary" role="navigation" aria-label="main navigation">
     <div class="container">
         <div class="navbar-brand">
             <div class="navbar-item">
-                <span class="icon has-text-primary"><i class="fa fa-birthday-cake"></i></span>
+                <a href="{{ route('home') }}">
+                    <span class="icon has-text-white"><i class="fa fa-birthday-cake"></i></span>
+                </a>
             </div>
             <span class="navbar-burger burger" data-target="nav-menu">
                 <span></span>
@@ -50,7 +52,7 @@
                 @guest
                     <a href="{{ route('login') }}" class="navbar-item">Logowanie</a>
                     <div class="navbar-item">
-                        <a href="{{ route('register') }}" class="button is-primary">Rejestracja</a>
+                        <a href="{{ route('register') }}" class="button is-white">Rejestracja</a>
                     </div>
                 @else
                         <a href="{{ route('payments') }}" class="navbar-item">Historia zamówień</a>
@@ -58,7 +60,7 @@
                         <form action="{{ route('logout') }}" method="POST">
                             {{ csrf_field() }}
 
-                            <button type="submit" class="button is-primary">
+                            <button type="submit" class="button is-white">
                                 Wyloguj
                             </button>
                         </form>

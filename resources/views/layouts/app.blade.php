@@ -16,9 +16,11 @@
 </head>
 
 <body>
-@include('common.nav')
-@yield('header')
-@yield('content')
+<div id="main-content">
+    @include('common.nav')
+    @yield('header')
+    @yield('content')
+</div>
 @include('common.footer')
 
 <!-- Scripts -->

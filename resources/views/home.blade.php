@@ -1,11 +1,12 @@
 @extends('layouts.app')
 
 @section('header')
-    <section class="hero is-primary">
+    <section class="hero is-primary is-medium"
+             style="background-image: url('{{ asset('image/back-main.jpg') }}')">
         <div class="hero-body">
             <div class="container">
-                <p class="title">Sklep internetowy</p>
-                <p class="subtitle">Projekt zaliczeniowy z Tworzenia Aplikacji Internetowych</p>
+                <h1 class="title is-size-1">Sklep internetowy</h1>
+                <strong class="subtitle">Projekt zaliczeniowy z Tworzenia Aplikacji Internetowych</strong>
             </div>
         </div>
     </section>
@@ -17,9 +18,19 @@
             @guest
                 Witaj na Stronie Głównej!
             @else
-                Witaj <strong>{{ Auth::user()->name }}</strong> na Stronie Głównej! <br>
-                <br>
-                Jesteś zalogowany.
+                <p class="content">
+                    Witaj <strong class="has-text-primary">{{ Auth::user()->username }}</strong> na Stronie Głównej!<br>
+                    Jesteś zalogowany.<br>
+                    <br>
+                    @php ($purchases = Auth::user()->purchases)
+                    @if (count($purchases) == 0)
+                        Brak zamówień.
+                    @else
+                        <a href="{{ route('payment.show', ['purchase' => $purchases->last()]) }}" class="">
+                            Zobacz ostatnie zamówienie.
+                        </a>
+                    @endif
+                </p>
             @endguest
         </div>
     </section>
