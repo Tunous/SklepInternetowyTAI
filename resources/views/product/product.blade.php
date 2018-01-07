@@ -1,8 +1,8 @@
-<div class="column is-4">
+<div class="column">
     <div class="card">
         <div class="card-image">
-            <figure class="image is-2by1">
-                <img src="https://bulma.io/images/placeholders/640x360.png" alt="Zdjęcie produktu">
+            <figure class="image">
+                <img src="{{ asset("storage/products/$product->alias/1.jpg") }}" alt="Zdjęcie produktu">
             </figure>
         </div>
         <header class="card-header">
@@ -18,7 +18,7 @@
         </header>
         <div class="card-content">
             <div class="content">
-                {{ $product->description }}
+                {{ $product->short_description }}
             </div>
         </div>
         <footer class="card-footer">

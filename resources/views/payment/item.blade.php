@@ -36,7 +36,7 @@
             <div class="subtitle">Szczegóły zamównienia</div>
             <div class="content">
                 Data zakupu: {{ $purchase->created_at }}<br>
-                Całkowity koszt: {{  number_format($purchase->total_cost / 100, 2, ',', ' ') }} zł
+                Całkowity koszt: <strong>{{  number_format($purchase->total_cost / 100, 2, ',', ' ') }} zł</strong>
             </div>
         </div>
     </div>

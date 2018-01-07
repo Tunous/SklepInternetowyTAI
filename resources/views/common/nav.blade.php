@@ -20,7 +20,7 @@
         </div>
         <div id="nav-menu" class="navbar-menu">
             <div class="navbar-start">
-                <a href="{{ route('home') }}" class="navbar-item is-active">Strona Główna</a>
+                <a href="{{ route('home') }}" class="navbar-item">Strona Główna</a>
                 <a href="{{ route('products') }}" class="navbar-item">Produkty</a>
             </div>
             <div class="navbar-end">

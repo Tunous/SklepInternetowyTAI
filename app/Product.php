@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property mixed id
  * @property string name
+ * @property string alias
+ * @property string short_description
  * @property string description
  * @property int cost
  * @property int quantity
@@ -14,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     protected $fillable = [
-        "name", "description", "cost"
+        "name", "alias", "short_description", "description", "cost"
     ];
 
     public function purchases()

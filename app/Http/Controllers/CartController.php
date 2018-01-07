@@ -14,9 +14,14 @@ class CartController extends Controller
 
     public function addToCart(Request $request, Product $product)
     {
+        $data = $this->validate($request, [
+            'quantity' => 'integer|min:1|max:20'
+        ]);
+        $addition = array_key_exists('quantity', $data) ? $data['quantity'] : 1;
+
         $cart = $request->session()->get('cart', []);
         $current_quantity = array_get($cart, $product->id, 0);
-        $cart[$product->id] = $current_quantity + 1;
+        $cart[$product->id] = min($current_quantity + $addition, 20);
         $request->session()->put('cart', $cart);
         return back();
     }

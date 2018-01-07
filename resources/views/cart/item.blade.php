@@ -12,7 +12,7 @@
                     <div class="level-item is-size-7">
                         ({{ number_format($product->cost / 100, 2, ',', ' ') }} zł/szt.)
                     </div>
-                    <div class="level-item is-size-5 has-text-danger has-text-weight-bold">
+                    <div class="level-item is-size-5 has-text-weight-bold">
                         {{ number_format(($product->cost * $product->quantity) / 100, 2, ',', ' ') }} zł
                     </div>
                 </div>
