@@ -83,7 +83,7 @@ class PaymentController extends Controller
         if (Auth::check()) {
             $user = $request->user();
             $details = $user->contactDetails;
-            if (!count($details)) {
+            if ($details == null) {
                 $details = new ContactDetails;
                 $details->user_id = $user->id;
             }
