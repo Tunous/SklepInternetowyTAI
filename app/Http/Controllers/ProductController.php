@@ -6,6 +6,14 @@ use App\Product;
 
 class ProductController extends Controller
 {
+    public function home()
+    {
+        $product = Product::first();
+        return view('home', [
+            'product' => $product
+        ]);
+    }
+
     public function index()
     {
         $products = Product::all();

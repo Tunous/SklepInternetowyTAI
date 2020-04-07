@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'home')->name('home');
+Route::get('/', 'ProductController@home')->name('home');
 
 Route::get('/produkty', 'ProductController@index')->name('products');
 Route::get('/produkty/{product}', 'ProductController@show')->name('product');

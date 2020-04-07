@@ -2,7 +2,7 @@
     <div class="card">
         <div class="card-image">
             <figure class="image">
-                <img src="{{ asset("storage/products/$product->alias/1.jpg") }}" alt="Zdjęcie produktu">
+                <img src="{{ asset("storage/images/products/$product->alias/1.png") }}" alt="Zdjęcie produktu">
             </figure>
         </div>
         <header class="card-header">
