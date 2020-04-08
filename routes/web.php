@@ -24,4 +24,11 @@ Route::get('/platnosci', 'PaymentController@showPayments')
     ->middleware('auth');
 Route::get('/platnosci/{purchase}', 'PaymentController@showPayment')->name('payment.show');
 
+Route::post('/produkty/{product}/komentarze', 'CommentController@addComment')
+    ->name('comment.add')
+    ->middleware('auth');
+Route::post('/komentarze/{comment}', 'CommentController@deleteComment')
+    ->name('comment.delete')
+    ->middleware('auth');
+
 Auth::routes();

@@ -83,6 +83,57 @@
 
             <div class="content">
                 {!! $product->description !!}
+
+                @php ($comments = $product->comments)
+                @if (count($comments) == 0)
+                    Brak komentarzy.
+                @else
+                    @foreach ($comments as $comment)
+                        <div>
+                            {!! $comment->user->username !!}
+                            {!! $comment->created_at !!}
+                            {!! $comment->body !!}
+
+                            @if (Auth::check() && Auth::user()->id == $comment->user_id)
+                            <form action="{{ route('comment.delete', ['comment' => $comment]) }}" method="POST">
+                                {{ csrf_field() }}
+
+                                <div class="field">
+                                    <div class="control">
+                                        <button class="button is-danger">
+                                            <span>Usuń</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                            @endif
+                        </div>
+                    @endforeach
+                @endif
+
+                <div>
+                    @guest
+                    <a href="{{ route('login') }}">Zaloguj się</a> aby dodać komentarz.
+                    @else
+                    <form action="{{ route('comment.add', ['product' => $product]) }}" method="POST">
+                        {{ csrf_field() }}
+
+                        <div class="field">
+                            <div class="control">
+                                <input type="text" class="input" name="body" title="Komentarz" placeholder="Komentarz" required>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <div class="control">
+                                <button class="button is-success">
+                                    <span>Dodaj komentarz</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    @endguest
+                </div>
             </div>
         </div>
     </section>

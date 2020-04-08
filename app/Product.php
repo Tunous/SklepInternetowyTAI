@@ -24,4 +24,9 @@ class Product extends Model
         return $this->belongsToMany('App\Purchase')
             ->withTimestamps();
     }
+
+    public function comments()
+    {
+        return $this->hasMany('App\Comment');
+    }
 }

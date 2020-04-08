@@ -48,6 +48,6 @@ class LoginController extends Controller
         if ($request->input('cart-login', false)) {
             return redirect(route('payment.login'));
         }
-        return redirect(route('home'));
+        return redirect()->intended();
     }
 }
