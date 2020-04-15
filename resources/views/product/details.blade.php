@@ -82,58 +82,67 @@
             </div>
 
             <div class="content">
+                <h3>Opis</h3>
                 {!! $product->description !!}
 
-                @php ($comments = $product->comments)
+                <h3>Komentarze</h3>
+                @php
+                    use \Carbon\Carbon;
+                    Carbon::setLocale("pl");
+                    $comments = $product->comments;
+                @endphp
                 @if (count($comments) == 0)
-                    Brak komentarzy.
+                    <p>Brak komentarzy.</p>
                 @else
-                    @foreach ($comments as $comment)
-                        <div>
-                            {!! $comment->user->username !!}
-                            {!! $comment->created_at !!}
-                            {!! $comment->body !!}
-
-                            @if (Auth::check() && Auth::user()->id == $comment->user_id)
-                            <form action="{{ route('comment.delete', ['comment' => $comment]) }}" method="POST">
-                                {{ csrf_field() }}
-
-                                <div class="field">
-                                    <div class="control">
-                                        <button class="button is-danger">
-                                            <span>Usuń</span>
-                                        </button>
+                    <div class="box">
+                        @foreach ($comments as $comment)
+                            <article class="media">
+                                <div class="media-content">
+                                    <div class="content">
+                                        <p>
+                                            <strong>{{ $comment->user->username }}</strong> <small>{{ Carbon::parse($comment->created_at)->diffForHumans() }}</small>
+                                            <br>
+                                            {!! $comment->body !!}
+                                        </p>
                                     </div>
                                 </div>
-                            </form>
-                            @endif
-                        </div>
-                    @endforeach
+                                @if (Auth::check() && Auth::user()->id == $comment->user_id)
+                                    <form action="{{ route('comment.delete', ['comment' => $comment]) }}" method="POST">
+                                        {{ csrf_field() }}
+                                        <div class="media-right">
+                                            <button class="delete"></button>
+                                        </div>
+                                    </form>
+                                @endif
+                            </article>
+                        @endforeach
+                    </div>
                 @endif
 
-                <div>
-                    @guest
-                    <a href="{{ route('login') }}">Zaloguj się</a> aby dodać komentarz.
-                    @else
+                @guest
+                    <p><a href="{{ route('login') }}">Zaloguj się</a> aby dodać komentarz.</p>
+                @else
                     <form action="{{ route('comment.add', ['product' => $product]) }}" method="POST">
                         {{ csrf_field() }}
 
-                        <div class="field">
-                            <div class="control">
-                                <input type="text" class="input" name="body" title="Komentarz" placeholder="Komentarz" required>
+                        <article class="media">
+                            <div class="media-content">
+                                <div class="field">
+                                    <p class="control">
+                                        <textarea class="textarea" placeholder="Dodaj komentarz..." title="Komentarz" name="body" required></textarea>
+                                    </p>
+                                </div>
+                                <nav class="level">
+                                    <div class="level-left">
+                                        <div class="level-item">
+                                            <button class="button is-success">Dodaj komentarz</button>
+                                        </div>
+                                    </div>
+                                </nav>
                             </div>
-                        </div>
-
-                        <div class="field">
-                            <div class="control">
-                                <button class="button is-success">
-                                    <span>Dodaj komentarz</span>
-                                </button>
-                            </div>
-                        </div>
+                        </article>
                     </form>
-                    @endguest
-                </div>
+                @endguest
             </div>
         </div>
     </section>
