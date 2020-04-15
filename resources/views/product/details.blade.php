@@ -20,7 +20,7 @@
             <div class="columns">
                 <div class="column is-4">
                     <figure class="image">
-                        <img id="big-image" src="{{ asset("storage/images/products/$product->alias/1.png") }}"
+                        <img id="big-image" src="{{ asset("images/products/$product->alias/1.png") }}"
                              style="max-height: 500px;"
                              alt="Zdjęcie produktu">
                     </figure>
@@ -30,13 +30,13 @@
                     @php
                         use Illuminate\Support\Facades\Storage;
 
-                        $files = collect(Storage::files("public/images/products/$product->alias"));
+                        $files = collect(Storage::disk("public")->files("images/products/$product->alias"));
                     @endphp
                     @foreach ($files->chunk(3) as $chunk)
                         <div class="level is-mobile">
                             @foreach ($chunk as $file)
                                 <a class="level-item">
-                                    <img src="{{ asset("storage/images/products/$product->alias/" . collect(explode('/', $file))->last()) }}"
+                                    <img src="{{ asset("images/products/$product->alias/" . collect(explode('/', $file))->last()) }}"
                                          class="preview-image"
                                          style="height: 80px">
                                 </a>

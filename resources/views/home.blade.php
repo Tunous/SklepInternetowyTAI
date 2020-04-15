@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('header')
-<section class="hero is-primary" style="background-image: url('{{ asset('storage/images/back-main.jpg') }}')">
+<section class="hero is-primary" style="background-image: url('{{ asset('images/back-main.jpg') }}')">
     <div class="hero-body">
         <div class="container">
             <div class="columns">
